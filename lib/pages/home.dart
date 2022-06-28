@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
           dew_point: double.tryParse(daily['dew_point'].toString()),
           uvi: double.tryParse(daily['uvi'].toString()),
           wind_speed: double.tryParse(daily['wind_speed'].toString()),
-          wind_gust: double.tryParse(daily['wind_speed']),
+          wind_gust: double.tryParse(daily['wind_speed'].toString()),
           weather: currWeather));
     }
   }
@@ -498,12 +498,17 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == true) {
-              return Container(
-                constraints: BoxConstraints(minHeight: _deviceHeight!),
-                color: Color(0xff000918),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [_buildCurrentWeather(), _buildHourWeather()],
+              return RefreshIndicator(
+                onRefresh: _getData,
+                child: Container(
+                  constraints: BoxConstraints(minHeight: _deviceHeight!),
+                  color: Color(0xff000918),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    child: Column(
+                      children: [_buildCurrentWeather(), _buildHourWeather()],
+                    ),
                   ),
                 ),
               );
@@ -530,7 +535,13 @@ class _HomePageState extends State<HomePage> {
                               EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           child: Text('Request Again'),
                         ),
-                        onTap: () => _getUserLocation(),
+                        onTap: () {
+                          if (_lat == null || _long == null) {
+                            _getUserLocation();
+                          } else {
+                            _getData();
+                          }
+                        },
                       )
                     ],
                   ),
