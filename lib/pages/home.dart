@@ -115,10 +115,10 @@ class _HomePageState extends State<HomePage> {
         wind_deg: data['current']['wind_deg'],
         temp: double.tryParse(data['current']['temp'].toString()),
         feels_like: double.tryParse(data['current']['feels_like'].toString()),
-        dew_point: data['current']['dew_point'],
+        dew_point: double.tryParse(data['current']['dew_point'].toString()),
         uvi: double.parse(data['current']['uvi'].toString()),
-        wind_speed: data['current']['wind_speed'],
-        wind_gust: data['current']['wind_speed'],
+        wind_speed: double.tryParse(data['current']['wind_speed'].toString()),
+        wind_gust: double.tryParse(data['current']['wind_speed'].toString()),
         weather: currWeather);
     // hourly
     _hourly = [];
@@ -145,8 +145,8 @@ class _HomePageState extends State<HomePage> {
           feels_like: double.tryParse(hour['feels_like'].toString()),
           dew_point: double.tryParse(hour['dew_point'].toString()),
           uvi: double.tryParse(hour['uvi'].toString()),
-          wind_speed: hour['wind_speed'],
-          wind_gust: hour['wind_speed'],
+          wind_speed: double.tryParse(hour['wind_speed'].toString()),
+          wind_gust: double.tryParse(hour['wind_speed'].toString()),
           weather: currWeather));
     }
     // daily
@@ -184,10 +184,10 @@ class _HomePageState extends State<HomePage> {
             eve: double.tryParse(daily['feels_like']['eve'].toString()),
             morn: double.tryParse(daily['feels_like']['morn'].toString()),
           ),
-          dew_point: daily['dew_point'],
+          dew_point: double.tryParse(daily['dew_point'].toString()),
           uvi: double.tryParse(daily['uvi'].toString()),
-          wind_speed: daily['wind_speed'],
-          wind_gust: daily['wind_speed'],
+          wind_speed: double.tryParse(daily['wind_speed'].toString()),
+          wind_gust: double.tryParse(daily['wind_speed']),
           weather: currWeather));
     }
   }
